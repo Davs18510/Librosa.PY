@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Librosa — Decode Every Sound</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <canvas id="particles-canvas"></canvas>
+
+    <nav id="sticky-nav">
+        <div class="nav-container">
+            <div class="nav-logo">
+                <span class="nav-logo-tilde">~</span>librosa
+            </div>
+            <div class="nav-links">
+                <a href="#about">Apresentação</a>
+                <a href="#functions">Funções</a>
+                <a href="#ide">IDE</a>
+                <a href="#workflow">Workflow</a>
+            </div>
+            <div class="nav-install">
+                <span class="nav-install-text">pip install librosa</span>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero" class="hero-section">
+        <div class="hero-content">
+            <p class="hero-eyebrow">// PYTHON AUDIO ANALYSIS LIBRARY</p>
+            <h1 class="hero-headline">
+                DECODE<br>
+                EVERY SOUND.
+            </h1>
+            <p class="hero-subtitle">Librosa transforma áudio bruto em inteligência numérica. De frequências a batidas, em Python.</p>
+            
+            <div class="waveform-container">
+                <svg id="hero-waveform" viewBox="0 0 1200 80" preserveAspectRatio="none">
+                    <defs>
+                        <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#7C3AED;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#00D4FF;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#FF2D78;stop-opacity:1" />
+                        </linearGradient>
+                    </defs>
+                    <path id="wave-path" d="" fill="none" stroke="url(#waveGrad)" stroke-width="3"/>
+                </svg>
+            </div>
+
+            <div class="hero-ctas">
+                <a href="#functions" class="btn btn-primary">Explorar Funções</a>
+                <a href="#ide" class="btn btn-secondary">Abrir IDE</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="section">
+        <div class="container">
+            <p class="section-label">// 01 — APRESENTAÇÃO</p>
+            <div class="about-grid">
+                <div class="about-text">
+                    <h2 class="section-title">A camada de abstração para inteligência sonora.</h2>
+                    <p class="section-body">
+                        Librosa é uma biblioteca Python de código aberto voltada para a análise e processamento de áudio e música. Ela oferece uma API simples que simplifica tarefas como carregar arquivos de áudio, extrair características sonoras e visualizar dados, sendo amplamente adotada em projetos de recuperação de informação musical (MIR), reconhecimento de fala e Machine Learning.
+                    </p>
+                    <div class="stat-pills">
+                        <div class="stat-pill">
+                            <span class="stat-pill-year">2015</span>
+                            <span class="stat-pill-detail">· SciPy Conference</span>
+                        </div>
+                        <div class="stat-pill">
+                            <span class="stat-pill-year">ISC</span>
+                            <span class="stat-pill-detail">· Licença Open Source</span>
+                        </div>
+                        <div class="stat-pill">
+                            <span class="stat-pill-year">LabROSA</span>
+                            <span class="stat-pill-detail">· Columbia University</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-cards">
+                    <div class="about-card">🎵 MIR</div>
+                    <div class="about-card">🎤 Reconhecimento de Fala</div>
+                    <div class="about-card">🎸 Identificação de Instrumentos</div>
+                    <div class="about-card">🤖 Machine Learning</div>
+                    <div class="about-card">🏷️ Classificação de Sons</div>
+                    <div class="about-card">📊 Análise de Padrões</div>
+                </div>
+            </div>
+            <div class="acronym-banner">
+                <span class="acronym-title">ROSA</span>
+                <span class="acronym-text">— Laboratory for the Recognition and Organization of Speech and Audio, Universidade de Columbia</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider">
+        <svg class="divider-waveform" viewBox="0 0 1200 80" preserveAspectRatio="none">
+            <defs>
+                <linearGradient id="dividerGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" style="stop-color:#7C3AED;stop-opacity:0.3" />
+                    <stop offset="50%" style="stop-color:#00D4FF;stop-opacity:0.5" />
+                    <stop offset="100%" style="stop-color:#FF2D78;stop-opacity:0.3" />
+                </linearGradient>
+            </defs>
+            <path id="divider-path" d="" fill="none" stroke="url(#dividerGrad)" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <section id="functions" class="section">
+        <div class="container">
+            <p class="section-label">// 02 — FUNÇÕES PRINCIPAIS</p>
+            <h2 class="section-title">Três funções. Infinitas possibilidades.</h2>
+            
+            <div class="function-card function-card-left">
+                <div class="function-card-left-content">
+                    <p class="function-tag function-tag-cyan">librosa.load()</p>
+                    <p class="function-desc">Converte arquivo de áudio em y (array NumPy) + sr (taxa de amostragem). Primeiro passo de qualquer pipeline Librosa. Padrão: mono, 22050 Hz. Formatos: WAV, MP3, FLAC, OGG.</p>
+                    <p class="function-use"><strong>Uso:</strong> pré-processamento, leitura de datasets, preparação para extração de features.</p>
+                </div>
+                <div class="function-card-right-content">
+                    <div class="code-block-small">
+                        <pre><code><span class="code-comment"># Carrega arquivo</span>
+<span class="code-keyword">import</span> <span class="code-function">librosa</span>
+y, sr = <span class="code-function">librosa.load</span>(<span class="code-string">'musica.mp3'</span>)
+
+<span class="code-comment"># Obtém duração</span>
+dur = <span class="code-function">librosa.get_duration</span>(y=y, sr=sr)
+<span class="code-keyword">print</span>(<span class="code-string">f"Duração: {dur:.1f}s"</span>)</code></pre>
+                    </div>
+                </div>
+            </div>
+
+            <div class="function-card function-card-right">
+                <div class="function-card-left-content">
+                    <div class="mfcc-grid" id="mfcc-grid"></div>
+                </div>
+                <div class="function-card-right-content">
+                    <p class="function-tag function-tag-purple">librosa.feature.mfcc()</p>
+                    <p class="function-desc">Extrai Mel-Frequency Cepstral Coefficients — representação compacta de timbre usando escala Mel não-linear (imitando a audição humana). Retorna matriz tempo×coeficientes. Feature mais usada em ML de áudio.</p>
+                    <p class="function-use"><strong>Uso:</strong> classificação de gênero, reconhecimento de fala, detecção de emoções em voz.</p>
+                </div>
+            </div>
+
+            <div class="function-card function-card-left">
+                <div class="function-card-left-content">
+                    <p class="function-tag function-tag-magenta">librosa.beat.beat_track()</p>
+                    <p class="function-desc">Detecta tempo em BPM e posições exatas dos frames de batida. Usa separação harmônica-percussiva internamente.</p>
+                    <p class="function-use"><strong>Uso:</strong> sincronização de batidas, DJs, jogos rítmicos, análise musical.</p>
+                </div>
+                <div class="function-card-right-content">
+                    <div class="pulse-container">
+                        <div class="pulse-circle" id="pulse-circle"></div>
+                        <span class="pulse-label">120 BPM</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider">
+        <svg class="divider-waveform" viewBox="0 0 1200 80" preserveAspectRatio="none">
+            <path id="divider-path-2" d="" fill="none" stroke="url(#dividerGrad)" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <section id="ide" class="section section-full">
+        <div class="container">
+            <p class="section-label">// 03 — IDE INTERATIVA</p>
+            <h2 class="section-title">Execute código Librosa no seu navegador.</h2>
+            
+            <div class="ide-wrapper">
+                <div class="ide-toolbar">
+                    <button id="run-btn" class="ide-btn ide-btn-primary">▶ Executar</button>
+                    <button id="reset-btn" class="ide-btn">⟳ Reset</button>
+                    <div class="example-select">
+                        <label for="examples">📋 Exemplo:</label>
+                        <select id="examples">
+                            <option value="pipeline">Pipeline Completo</option>
+                            <option value="mfcc">Extração de MFCCs</option>
+                            <option value="beat">Detecção de Batidas</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="ide-top">
+                    <div class="ide-dropzone" id="dropzone">
+                        <div class="dropzone-icon">📁</div>
+                        <p class="dropzone-text">Arraste e solte um arquivo de áudio</p>
+                        <p class="dropzone-formats">.mp3 · .wav · .ogg · .flac</p>
+                        <input type="file" id="file-input" accept="audio/*">
+                        <div id="file-info" class="file-info" style="display: none;">
+                            <p class="file-info-name"><strong>Arquivo:</strong> <span id="file-name"></span></p>
+                            <p class="file-info-duration"><strong>Duração:</strong> <span id="file-duration"></span></p>
+                            <p class="file-info-sr"><strong>Taxa de amostragem:</strong> <span id="file-sr"></span></p>
+                        </div>
+                    </div>
+                    
+                    <div class="ide-editor">
+                        <textarea id="code-editor" class="code-editor-textarea" spellcheck="false"></textarea>
+                    </div>
+                </div>
+                
+                <div class="ide-terminal">
+                    <div class="terminal-header">Terminal Output</div>
+                    <pre id="terminal-pre" class="terminal-pre"></pre>
+                </div>
+                
+                <div class="ide-waveform-canvas-container">
+                    <canvas id="waveform-canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider">
+        <svg class="divider-waveform" viewBox="0 0 1200 80" preserveAspectRatio="none">
+            <path id="divider-path-3" d="" fill="none" stroke="url(#dividerGrad)" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <section id="workflow" class="section">
+        <div class="container">
+            <p class="section-label">// 04 — USO PRÁTICO</p>
+            <h2 class="section-title">Da coleta ao modelo em 6 etapas.</h2>
+            
+            <div class="workflow-steps">
+                <div class="workflow-step">
+                    <div class="workflow-step-number">01</div>
+                    <div class="workflow-step-label">Coleta</div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step">
+                    <div class="workflow-step-number">02</div>
+                    <div class="workflow-step-label">librosa.load()</div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step">
+                    <div class="workflow-step-number">03</div>
+                    <div class="workflow-step-label">Pré-processamento</div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step">
+                    <div class="workflow-step-number">04</div>
+                    <div class="workflow-step-label">librosa.feature.mfcc()</div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step">
+                    <div class="workflow-step-number">05</div>
+                    <div class="workflow-step-label">Treinamento</div>
+                </div>
+                <div class="workflow-connector"></div>
+                <div class="workflow-step">
+                    <div class="workflow-step-number">06</div>
+                    <div class="workflow-step-label">Avaliação</div>
+                </div>
+            </div>
+            
+            <div class="workflow-callout">
+                <p><strong>Um caso clássico:</strong> carregar 1.000 músicas, extrair MFCCs, montar matriz de features e treinar um classificador de gênero musical.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider">
+        <svg class="divider-waveform" viewBox="0 0 1200 80" preserveAspectRatio="none">
+            <path id="divider-path-4" d="" fill="none" stroke="url(#dividerGrad)" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <section id="analysis" class="section">
+        <div class="container">
+            <p class="section-label">// 05 — ANÁLISE CRÍTICA</p>
+            
+            <div class="analysis-grid">
+                <div class="analysis-col analysis-col-benefits">
+                    <h3 class="analysis-col-title">Benefícios</h3>
+                    <ul class="analysis-list">
+                        <li>API intuitiva</li>
+                        <li>Integração NumPy/SciPy</li>
+                        <li>Multi-formato</li>
+                        <li>Comunidade ativa</li>
+                        <li>Ideal para MIR e ML</li>
+                    </ul>
+                </div>
+                <div class="analysis-col analysis-col-limitations">
+                    <h3 class="analysis-col-title">Limitações</h3>
+                    <ul class="analysis-list">
+                        <li>Sem tempo real</li>
+                        <li>Sem GPU nativo</li>
+                        <li>Lento em arquivos longos</li>
+                        <li>Mono por padrão</li>
+                        <li>MP3 requer ffmpeg</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="analysis-note">
+                <p><strong>Nota:</strong> Para tempo real, combine com PyAudio ou sounddevice. Para GPU, use Librosa só para features e treine em PyTorch/CUDA.</p>
+            </div>
+        </div>
+    </section>
+
+    <div class="section-divider">
+        <svg class="divider-waveform" viewBox="0 0 1200 80" preserveAspectRatio="none">
+            <path id="divider-path-5" d="" fill="none" stroke="url(#dividerGrad)" stroke-width="2"/>
+        </svg>
+    </div>
+
+    <section id="reference" class="section">
+        <div class="container">
+            <p class="section-label">// 06 — REFERÊNCIA RÁPIDA</p>
+            <table class="ref-table">
+                <thead>
+                    <tr>
+                        <th>Parâmetro</th>
+                        <th>Tipo</th>
+                        <th>Padrão</th>
+                        <th>Descrição</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>y</td>
+                        <td>np.ndarray</td>
+                        <td>—</td>
+                        <td>Sinal de áudio (amplitudes)</td>
+                    </tr>
+                    <tr>
+                        <td>sr</td>
+                        <td>int</td>
+                        <td>22050</td>
+                        <td>Taxa de amostragem em Hz</td>
+                    </tr>
+                    <tr>
+                        <td>n_mfcc</td>
+                        <td>int</td>
+                        <td>20</td>
+                        <td>Nº de coeficientes MFCC</td>
+                    </tr>
+                    <tr>
+                        <td>hop_length</td>
+                        <td>int</td>
+                        <td>512</td>
+                        <td>Salto entre janelas de análise</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container footer-grid">
+            <div class="footer-col">
+                <div class="footer-logo">
+                    <span class="footer-logo-tilde">~</span>librosa
+                </div>
+                <p class="footer-desc">Biblioteca Python para análise de áudio e música.</p>
+            </div>
+            <div class="footer-col">
+                <p class="footer-title">Tech Stack</p>
+                <p>Pyodide · NumPy · SciPy</p>
+                <p>Licença ISC</p>
+            </div>
+            <div class="footer-col">
+                <p class="footer-title">Créditos</p>
+                <p>LabROSA · Columbia University</p>
+                <p>SciPy Conference 2015</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.25.0/full/pyodide.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
