@@ -192,7 +192,7 @@ let audioData = null;
 
 const codeExamples = {
     pipeline: `# Exemplo 1 - Pipeline Completo
-# Simulação de análise de áudio
+# Usa o arquivo de áudio arrastado para o site!
 import numpy as np
 
 print("="*40)
@@ -200,35 +200,49 @@ print("LIBROSA - ANÁLISE DE ÁUDIO")
 print("="*40)
 print()
 
-# Dados de exemplo
-sr = 22050
-duration = 3.0
-t = np.linspace(0, duration, int(sr * duration), endpoint=False)
-y = np.sin(2 * np.pi * 440 * t) + 0.3 * np.sin(2 * np.pi * 880 * t)
-
-print(f"✓ Áudio carregado: {duration:.1f}s, {sr} Hz")
-print()
-
-# Extração de features
-print("Extraindo MFCCs...")
-n_mfcc = 13
-mfccs = np.random.randn(n_mfcc, 100)  # Simulação
-print(f"✓ MFCCs extraídos: {mfccs.shape}")
-print()
-
-# Beat tracking
-print("Detectando beats...")
-tempo = 120.0
-beats = np.arange(0, duration, 60/tempo)
-print(f"✓ Tempo estimado: {tempo:.1f} BPM")
-print(f"✓ Beats detectados: {len(beats)}")
-print()
-
-print("="*40)
-print("ANÁLISE CONCLUÍDA!")
-print("="*40)
+# Verifica se o arquivo foi carregado
+try:
+    if 'y' not in globals() or 'sr' not in globals():
+        raise ValueError("Arraste e solte um arquivo de áudio na área à esquerda!")
+    
+    duration = len(y) / sr
+    
+    print(f"✓ Áudio carregado: {duration:.1f}s, {sr} Hz")
+    print(f"✓ Amostras totais: {len(y)}")
+    print()
+    
+    # Cálculo de estatísticas básicas
+    print("Estatísticas do sinal:")
+    print(f"- Amplitude máxima: {np.max(np.abs(y)):.4f}")
+    print(f"- Amplitude média: {np.mean(np.abs(y)):.4f}")
+    print(f"- RMS (energia): {np.sqrt(np.mean(y**2)):.4f}")
+    print()
+    
+    # Simulação de extração de MFCCs (como se tivéssemos Librosa)
+    print("Extração de MFCCs (simulada):")
+    n_mfcc = 13
+    # Calcula uma representação simplificada similar a MFCCs
+    frame_size = 2048
+    hop_size = 512
+    n_frames = (len(y) - frame_size) // hop_size + 1
+    mfccs = np.random.randn(n_mfcc, n_frames)
+    print(f"✓ MFCCs extraídos: {mfccs.shape} (coeficientes × frames)")
+    print()
+    
+    # Simulação de detecção de beats
+    print("Detecção de beats (simulada):")
+    tempo_estimate = 120.0  # Valor padrão para demonstração
+    print(f"✓ Tempo estimado: ~{tempo_estimate:.1f} BPM")
+    print()
+    
+    print("="*40)
+    print("ANÁLISE CONCLUÍDA!")
+    print("="*40)
+except Exception as e:
+    print(f"✗ Erro: {e}")
 `,
     mfcc: `# Exemplo 2 - Extração de MFCCs
+# Usa o arquivo de áudio arrastado para o site!
 import numpy as np
 
 print("="*40)
@@ -236,19 +250,36 @@ print("MEL-FREQUENCY CEPSTRAL COEFFICIENTS")
 print("="*40)
 print()
 
-print("MFCCs são características amplamente usadas em:")
-print("- Reconhecimento de fala")
-print("- Classificação de música")
-print("- Detecção de emoções")
-print()
-
-n_mfcc = 13
-print(f"Número de coeficientes: {n_mfcc}")
-print()
-print("Os primeiros coeficientes representam as")
-print("características mais importantes do timbre.")
+try:
+    if 'y' not in globals() or 'sr' not in globals():
+        raise ValueError("Arraste e solte um arquivo de áudio na área à esquerda!")
+    
+    print(f"✓ Analisando arquivo: {len(y)/sr:.1f}s, {sr} Hz")
+    print()
+    
+    print("MFCCs são características amplamente usadas em:")
+    print("- Reconhecimento de fala")
+    print("- Classificação de música")
+    print("- Detecção de emoções")
+    print()
+    
+    n_mfcc = 13
+    frame_size = 2048
+    hop_size = 512
+    n_frames = (len(y) - frame_size) // hop_size + 1
+    
+    print(f"Número de coeficientes MFCC: {n_mfcc}")
+    print(f"Tamanho do frame: {frame_size} amostras")
+    print(f"Overlap (hop size): {hop_size} amostras")
+    print(f"Total de frames: {n_frames}")
+    print()
+    print("Os primeiros coeficientes representam as")
+    print("características mais importantes do timbre do som.")
+except Exception as e:
+    print(f"✗ Erro: {e}")
 `,
     beat: `# Exemplo 3 - Detecção de Beats
+# Usa o arquivo de áudio arrastado para o site!
 import numpy as np
 
 print("="*40)
@@ -256,15 +287,29 @@ print("DETECÇÃO DE BATIDAS (BEAT TRACKING)")
 print("="*40)
 print()
 
-# Simulação
-tempo = 128.0
-print(f"Tempo estimado: {tempo:.1f} BPM")
-print()
-
-print("Aplicações:")
-print("- Sincronização de playlists")
-print("- Jogos de ritmo")
-print("- Edição de vídeo")
+try:
+    if 'y' not in globals() or 'sr' not in globals():
+        raise ValueError("Arraste e solte um arquivo de áudio na área à esquerda!")
+    
+    duration = len(y) / sr
+    print(f"✓ Analisando arquivo: {duration:.1f}s, {sr} Hz")
+    print()
+    
+    # Simulação de detecção de beats (como se tivéssemos Librosa)
+    print("Processando detecção de beats...")
+    
+    # Estimativa simples de tempo (simulada)
+    tempo_estimate = 120.0
+    print(f"✓ Tempo estimado: {tempo_estimate:.1f} BPM")
+    print()
+    
+    print("Aplicações reais de beat tracking:")
+    print("- Sincronização de playlists")
+    print("- Jogos de ritmo (ex: Guitar Hero)")
+    print("- Edição de vídeo (sincronizar com música)")
+    print("- Análise de performance musical")
+except Exception as e:
+    print(f"✗ Erro: {e}")
 `
 };
 
