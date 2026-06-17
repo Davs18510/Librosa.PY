@@ -191,123 +191,170 @@ let pyodideReady = false;
 let audioData = null;
 
 const codeExamples = {
-    pipeline: `# Exemplo 1 - Pipeline Completo
-# Usa o arquivo de áudio arrastado para o site!
+    load: `# Exemplo 1: librosa.load()
+# Converte arquivo de áudio em y (array NumPy) + sr (taxa de amostragem)
+# Primeiro passo de qualquer pipeline Librosa!
 import numpy as np
 
+# ------------------------------------------------------
+# Simulação das funções da Librosa
+# ------------------------------------------------------
+def load(filename=None):
+    """Simula librosa.load() - retorna (y, sr)"""
+    if 'y' not in globals() or 'sr' not in globals():
+        raise ValueError("Arraste e solte um arquivo de áudio na área à esquerda!")
+    return y, sr
+
+def get_duration(y=None, sr=None):
+    """Simula librosa.get_duration()"""
+    return len(y) / sr
+
+# ------------------------------------------------------
+# Executa o código!
+# ------------------------------------------------------
 print("="*40)
-print("LIBROSA - ANÁLISE DE ÁUDIO")
+print("librosa.load()")
 print("="*40)
 print()
 
-# Verifica se o arquivo foi carregado
 try:
-    if 'y' not in globals() or 'sr' not in globals():
-        raise ValueError("Arraste e solte um arquivo de áudio na área à esquerda!")
-    
-    duration = len(y) / sr
-    
-    print(f"✓ Áudio carregado: {duration:.1f}s, {sr} Hz")
-    print(f"✓ Amostras totais: {len(y)}")
+    print("Carregando arquivo de áudio...")
+    y, sr = load()
+    print("✓ Arquivo carregado com sucesso!")
     print()
     
-    # Cálculo de estatísticas básicas
+    duration = get_duration(y=y, sr=sr)
+    
+    print("Informações do arquivo:")
+    print(f"• Taxa de amostragem: {sr} Hz")
+    print(f"• Duração: {duration:.2f} segundos")
+    print(f"• Número de amostras: {len(y)}")
+    print()
+    
     print("Estatísticas do sinal:")
-    print(f"- Amplitude máxima: {np.max(np.abs(y)):.4f}")
-    print(f"- Amplitude média: {np.mean(np.abs(y)):.4f}")
-    print(f"- RMS (energia): {np.sqrt(np.mean(y**2)):.4f}")
-    print()
-    
-    # Simulação de extração de MFCCs (como se tivéssemos Librosa)
-    print("Extração de MFCCs (simulada):")
-    n_mfcc = 13
-    # Calcula uma representação simplificada similar a MFCCs
-    frame_size = 2048
-    hop_size = 512
-    n_frames = (len(y) - frame_size) // hop_size + 1
-    mfccs = np.random.randn(n_mfcc, n_frames)
-    print(f"✓ MFCCs extraídos: {mfccs.shape} (coeficientes × frames)")
-    print()
-    
-    # Simulação de detecção de beats
-    print("Detecção de beats (simulada):")
-    tempo_estimate = 120.0  # Valor padrão para demonstração
-    print(f"✓ Tempo estimado: ~{tempo_estimate:.1f} BPM")
+    print(f"• Amplitude máxima: {np.max(np.abs(y)):.4f}")
+    print(f"• Amplitude média: {np.mean(np.abs(y)):.4f}")
+    print(f"• RMS (energia): {np.sqrt(np.mean(y**2)):.4f}")
     print()
     
     print("="*40)
-    print("ANÁLISE CONCLUÍDA!")
+    print("Use y e sr nas próximas funções!")
     print("="*40)
 except Exception as e:
     print(f"✗ Erro: {e}")
 `,
-    mfcc: `# Exemplo 2 - Extração de MFCCs
-# Usa o arquivo de áudio arrastado para o site!
+    mfcc: `# Exemplo 2: librosa.feature.mfcc()
+# Extrai Mel-Frequency Cepstral Coefficients
+# Feature mais usada em ML de áudio!
 import numpy as np
 
+# ------------------------------------------------------
+# Simulação das funções da Librosa
+# ------------------------------------------------------
+def load(filename=None):
+    if 'y' not in globals() or 'sr' not in globals():
+        raise ValueError("Arraste e solte um arquivo de áudio na área à esquerda!")
+    return y, sr
+
+def feature_mfcc(y=None, sr=None, n_mfcc=20, hop_length=512):
+    """Simula librosa.feature.mfcc()"""
+    n_frames = (len(y) - 2048) // hop_length + 1
+    return np.random.randn(n_mfcc, n_frames)
+
+# ------------------------------------------------------
+# Executa o código!
+# ------------------------------------------------------
 print("="*40)
-print("MEL-FREQUENCY CEPSTRAL COEFFICIENTS")
+print("librosa.feature.mfcc()")
 print("="*40)
 print()
 
 try:
-    if 'y' not in globals() or 'sr' not in globals():
-        raise ValueError("Arraste e solte um arquivo de áudio na área à esquerda!")
-    
-    print(f"✓ Analisando arquivo: {len(y)/sr:.1f}s, {sr} Hz")
+    print("Verificando arquivo de áudio...")
+    y, sr = load()
+    print("✓ Arquivo encontrado!")
     print()
     
-    print("MFCCs são características amplamente usadas em:")
-    print("- Reconhecimento de fala")
-    print("- Classificação de música")
-    print("- Detecção de emoções")
+    print("Extraindo MFCCs...")
+    mfccs = feature_mfcc(y=y, sr=sr, n_mfcc=13)
+    print("✓ MFCCs extraídos com sucesso!")
     print()
     
-    n_mfcc = 13
-    frame_size = 2048
-    hop_size = 512
-    n_frames = (len(y) - frame_size) // hop_size + 1
-    
-    print(f"Número de coeficientes MFCC: {n_mfcc}")
-    print(f"Tamanho do frame: {frame_size} amostras")
-    print(f"Overlap (hop size): {hop_size} amostras")
-    print(f"Total de frames: {n_frames}")
+    print("Resultados:")
+    print(f"• Shape do array: {mfccs.shape}")
+    print(f"• {mfccs.shape[0]} coeficientes MFCC")
+    print(f"• {mfccs.shape[1]} frames de análise")
     print()
-    print("Os primeiros coeficientes representam as")
-    print("características mais importantes do timbre do som.")
+    
+    print("Sobre MFCCs:")
+    print("• Representam compactamente o timbre do som")
+    print("• Usam a escala Mel (percepção humana)")
+    print("• Ideais para ML: classificação, reconhecimento")
+    print()
+    
+    print("Aplicações:")
+    print("• Classificação de gênero musical")
+    print("• Reconhecimento de fala")
+    print("• Detecção de emoções em voz")
 except Exception as e:
     print(f"✗ Erro: {e}")
 `,
-    beat: `# Exemplo 3 - Detecção de Beats
-# Usa o arquivo de áudio arrastado para o site!
+    beat: `# Exemplo 3: librosa.beat.beat_track()
+# Detecta tempo em BPM e posições das batidas
 import numpy as np
 
+# ------------------------------------------------------
+# Simulação das funções da Librosa
+# ------------------------------------------------------
+def load(filename=None):
+    if 'y' not in globals() or 'sr' not in globals():
+        raise ValueError("Arraste e solte um arquivo de áudio na área à esquerda!")
+    return y, sr
+
+def beat_beat_track(y=None, sr=None):
+    """Simula librosa.beat.beat_track()"""
+    tempo = 120.0
+    n_beats = int(len(y) / sr * (tempo/60))
+    beats = np.linspace(0, len(y), n_beats).astype(int)
+    return tempo, beats
+
+def frames_to_time(frames=None, sr=None):
+    """Simula librosa.frames_to_time()"""
+    return frames / sr
+
+# ------------------------------------------------------
+# Executa o código!
+# ------------------------------------------------------
 print("="*40)
-print("DETECÇÃO DE BATIDAS (BEAT TRACKING)")
+print("librosa.beat.beat_track()")
 print("="*40)
 print()
 
 try:
-    if 'y' not in globals() or 'sr' not in globals():
-        raise ValueError("Arraste e solte um arquivo de áudio na área à esquerda!")
-    
-    duration = len(y) / sr
-    print(f"✓ Analisando arquivo: {duration:.1f}s, {sr} Hz")
+    print("Verificando arquivo de áudio...")
+    y, sr = load()
+    print("✓ Arquivo encontrado!")
     print()
     
-    # Simulação de detecção de beats (como se tivéssemos Librosa)
-    print("Processando detecção de beats...")
-    
-    # Estimativa simples de tempo (simulada)
-    tempo_estimate = 120.0
-    print(f"✓ Tempo estimado: {tempo_estimate:.1f} BPM")
+    print("Detectando batidas...")
+    tempo, beat_frames = beat_beat_track(y=y, sr=sr)
+    beat_times = frames_to_time(beat_frames, sr=sr)
+    print("✓ Batidas detectadas!")
     print()
     
-    print("Aplicações reais de beat tracking:")
-    print("- Sincronização de playlists")
-    print("- Jogos de ritmo (ex: Guitar Hero)")
-    print("- Edição de vídeo (sincronizar com música)")
-    print("- Análise de performance musical")
+    print("Resultados:")
+    print(f"• Tempo estimado: {tempo:.1f} BPM")
+    print(f"• Número de batidas: {len(beat_frames)}")
+    if len(beat_frames) > 0:
+        print(f"• Primeira batida: {beat_times[0]:.2f}s")
+        print(f"• Última batida: {beat_times[-1]:.2f}s")
+    print()
+    
+    print("Aplicações:")
+    print("• Sincronização de playlists")
+    print("• Jogos de ritmo")
+    print("• Análise musical")
+    print("• Edição de vídeo")
 except Exception as e:
     print(f"✗ Erro: {e}")
 `
@@ -520,7 +567,7 @@ function initControls() {
     const terminal = document.getElementById('terminal-pre');
     
     // Initialize with first example
-    codeEditor.value = codeExamples.pipeline;
+    codeEditor.value = codeExamples.load;
     
     if (select) {
         select.addEventListener('change', () => {
@@ -534,8 +581,8 @@ function initControls() {
     
     if (resetBtn) {
         resetBtn.addEventListener('click', () => {
-            codeEditor.value = codeExamples.pipeline;
-            if (select) select.value = 'pipeline';
+            codeEditor.value = codeExamples.load;
+            if (select) select.value = 'load';
             if (terminal) {
                 terminal.textContent = 'Terminal resetado.\n';
             }
